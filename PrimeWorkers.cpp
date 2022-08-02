@@ -14,7 +14,7 @@ bool IsPrimeNumber( unsigned int number )
     if ( number <= 1 )
         isPrime = false;
 
-    for ( auto i = 2u; i < number; i++ )
+    for ( auto i = 2u; i <= ( number / 2 ); i++ )
         if ( number % i == 0 )
             isPrime = false;
 
