@@ -37,11 +37,11 @@ OutputType FindPrimes( const InputType& numbers )
 OutputType GetAllPrimesInVector( const InputType& input )
 {
     auto halfSize = input.size() / 2;
-    InputType lowerInputHalf( input.begin(), input.begin() + halfSize );
-    InputType upperInputHalf( input.begin() + halfSize, input.end() );
+    InputType firstHalf( input.begin(), input.begin() + halfSize );
+    InputType secondHalf( input.begin() + halfSize, input.end() );
 
-    std::future< OutputType > futureOne = std::async( FindPrimes, lowerInputHalf );
-    std::future< OutputType > futureTwo = std::async( FindPrimes, upperInputHalf );
+    std::future< OutputType > futureOne = std::async( FindPrimes, firstHalf );
+    std::future< OutputType > futureTwo = std::async( FindPrimes, secondHalf );
 
     auto output = futureOne.get();
     output.merge( futureTwo.get() );
