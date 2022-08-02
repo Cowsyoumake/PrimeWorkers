@@ -34,6 +34,21 @@ OutputType FindPrimes( const InputType& numbers )
     return primeList;
 }
 
+OutputType GetAllPrimesInVector( const InputType& input )
+{
+    auto halfSize = input.size() / 2;
+    InputType lowerInputHalf( input.begin(), input.begin() + halfSize );
+    InputType upperInputHalf( input.begin() + halfSize, input.end() );
+
+    std::future< OutputType > futureOne = std::async( FindPrimes, lowerInputHalf );
+    std::future< OutputType > futureTwo = std::async( FindPrimes, upperInputHalf );
+
+    auto output = futureOne.get();
+    output.merge( futureTwo.get() );
+
+    return output;
+}
+
 int main()
 {
     InputType input;
@@ -41,15 +56,7 @@ int main()
     for ( auto i = 100; i >= 0; i-- )
         input.push_back( i );
 
-    auto halfSize = input.size() / 2;
-    InputType lowerInputHalf( input.begin(), input.begin() + halfSize );
-    InputType upperInputHalf( input.begin() + halfSize, input.end() );
-    
-    std::future< OutputType > futureOne = std::async( FindPrimes, lowerInputHalf );
-    std::future< OutputType > futureTwo = std::async( FindPrimes, upperInputHalf );
-
-    auto output = futureOne.get();
-    output.merge( futureTwo.get() );
+    auto output = GetAllPrimesInVector( input );
 
     std::cout << "Output size is " << output.size() << std::endl;
 
