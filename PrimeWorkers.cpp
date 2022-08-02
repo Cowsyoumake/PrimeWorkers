@@ -34,7 +34,7 @@ OutputType FindPrimes( const InputType& numbers )
     return primeList;
 }
 
-OutputType GetAllPrimesInVector( const InputType& input )
+OutputType GetAllPrimes( const InputType& input )
 {
     auto halfSize = input.size() / 2;
     InputType firstHalf( input.begin(), input.begin() + halfSize );
@@ -56,7 +56,7 @@ int main()
     for ( auto i = 100; i >= 0; i-- )
         input.push_back( i );
 
-    auto output = GetAllPrimesInVector( input );
+    auto output = GetAllPrimes( input );
 
     std::cout << "Output size is " << output.size() << std::endl;
 
