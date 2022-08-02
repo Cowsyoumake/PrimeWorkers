@@ -11,7 +11,7 @@ bool IsPrimeNumber( unsigned int number )
 {
     auto isPrime = true;
 
-    if ( number == 0 || number == 1 )
+    if ( number <= 1 )
         isPrime = false;
 
     for ( auto i = 2u; i < number; i++ )
