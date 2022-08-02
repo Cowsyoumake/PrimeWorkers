@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <future>
-#include <list>
 #include <iostream>
+#include <set>
 #include <vector>
 
 using InputType = std::vector< unsigned int >;
-using OutputType = std::list< unsigned int >;
+using OutputType = std::set< unsigned int >;
 
 bool IsPrimeNumber( unsigned int number )
 {
@@ -27,9 +27,7 @@ OutputType FindPrimes( const InputType& numbers )
 
     for ( auto it = numbers.begin(); it != numbers.end(); it++ )
         if ( IsPrimeNumber( *it ) )
-            primeList.push_back( *it );
-
-    primeList.sort();
+            primeList.insert( *it );
 
     return primeList;
 }
@@ -44,7 +42,8 @@ OutputType GetAllPrimesInVector( const InputType& input )
     std::future< OutputType > futureTwo = std::async( FindPrimes, secondHalf );
 
     auto output = futureOne.get();
-    output.merge( futureTwo.get() );
+    auto outputTwo = futureTwo.get();
+    output.insert( outputTwo.begin(), outputTwo.end() );
 
     return output;
 }
@@ -53,7 +52,7 @@ int main()
 {
     InputType input;
 
-    for ( auto i = 100; i >= 0; i-- )
+    for ( auto i = 10000; i >= 0; i-- )
         input.push_back( i );
 
     auto output = GetAllPrimesInVector( input );
